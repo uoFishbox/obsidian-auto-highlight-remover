@@ -1,6 +1,6 @@
 {
     "author": "uoFishbox",
-    "authorUrl": "https://obsidian.md",
+    "authorUrl": "https://github.com/uoFishbox/obsidian-auto-highlight-remover",
     "description": "Automatically removes the highlighted state without mouse clicks.",
     "id": "auto-highlight-remover",
     "isDesktopOnly": false,
