@@ -1,12 +1,12 @@
 import { Editor, Plugin } from "obsidian";
 import {
-	AutoEmphasisRemovalSettingTab,
-	AutoEmphasisRemovalSettings,
+	AutoEmphasisRemovalSettings as AutoHighlightRemovalSettings,
+	AutoHighlightRemovalSettingTab,
 	DEFAULT_SETTINGS,
 } from "./settings";
 
-export default class AutoEmphasisRemoval extends Plugin {
-	settings!: AutoEmphasisRemovalSettings;
+export default class AutoHighlightRemoval extends Plugin {
+	settings!: AutoHighlightRemovalSettings;
 
 	async onload() {
 		await this.loadSettings();
@@ -21,7 +21,7 @@ export default class AutoEmphasisRemoval extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new AutoEmphasisRemovalSettingTab(this.app, this));
+		this.addSettingTab(new AutoHighlightRemovalSettingTab(this.app, this));
 	}
 
 	onunload() {}

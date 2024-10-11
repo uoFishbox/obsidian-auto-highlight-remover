@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import AutoEmphasisRemoval from "./main";
+import AutoHighlightRemoval from "./main";
 
 export interface AutoEmphasisRemovalSettings {
 	mySetting: string;
@@ -9,10 +9,10 @@ export const DEFAULT_SETTINGS: AutoEmphasisRemovalSettings = {
 	mySetting: "default",
 };
 
-export class AutoEmphasisRemovalSettingTab extends PluginSettingTab {
-	plugin: AutoEmphasisRemoval;
+export class AutoHighlightRemovalSettingTab extends PluginSettingTab {
+	plugin: AutoHighlightRemoval;
 
-	constructor(app: App, plugin: AutoEmphasisRemoval) {
+	constructor(app: App, plugin: AutoHighlightRemoval) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
