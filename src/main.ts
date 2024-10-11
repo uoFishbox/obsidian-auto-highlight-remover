@@ -4,7 +4,7 @@ import {
 	removeHighlightFromEditor,
 } from "./removeHighlight";
 
-export default class AutoHighlightRemoval extends Plugin {
+export default class AutoHighlightRemover extends Plugin {
 	async onload() {
 		this.registerEvent(
 			this.app.workspace.on("editor-change", this.removeHighlightIfNeeded)
