@@ -1,21 +1,21 @@
 import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
 
-interface MyPluginSettings {
+interface AutoEmphasisRemovalSettings {
 	mySetting: string;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: AutoEmphasisRemovalSettings = {
 	mySetting: "default",
 };
 
-export default class MyPlugin extends Plugin {
-	settings!: MyPluginSettings;
+export default class AutoEmphasisRemoval extends Plugin {
+	settings!: AutoEmphasisRemovalSettings;
 
 	async onload() {
 		await this.loadSettings();
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new AutoEmphasisRemovalSettingTab(this.app, this));
 	}
 
 	onunload() {}
@@ -32,10 +32,10 @@ export default class MyPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 }
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+class AutoEmphasisRemovalSettingTab extends PluginSettingTab {
+	plugin: AutoEmphasisRemoval;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: AutoEmphasisRemoval) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
