@@ -13,32 +13,16 @@ export default class AutoHighlightRemoval extends Plugin {
 	settings!: AutoHighlightRemovalSettings;
 
 	async onload() {
-		await this.loadSettings();
 		this.registerEvent(
-			this.app.workspace.on("editor-change", this.handleHilightState)
+			this.app.workspace.on("editor-change", this.removeHighlightIfNeeded)
 		);
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new AutoHighlightRemovalSettingTab(this.app, this));
 	}
 
 	onunload() {}
 
-	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			await this.loadData()
-		);
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
-	handleHilightState(editor: Editor) {
+	removeHighlightIfNeeded(editor: Editor) {
 		if (hasHighlighInEditor(editor)) {
 			removeHighlightFromEditor(editor);
-			// console.log("highlight removed");
 		}
 	}
 }
