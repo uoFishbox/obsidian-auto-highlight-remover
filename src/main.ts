@@ -1,8 +1,5 @@
 import { Editor, Plugin } from "obsidian";
-import {
-	hasHighlighInEditor,
-	removeHighlightFromEditor,
-} from "./removeHighlight";
+import { hasHighlighInEditor, removeHighlightFromEditor } from "./hightlight";
 
 export default class AutoHighlightRemover extends Plugin {
 	async onload() {
