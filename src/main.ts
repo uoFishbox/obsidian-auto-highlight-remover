@@ -1,5 +1,9 @@
 import { Editor, Plugin } from "obsidian";
-import { hasHighlighInEditor, removeHighlightFromEditor } from "./hightlight";
+import {
+	hasHighlighInEditor,
+	removeHighlightFromEditor,
+} from "./highlightHandler";
+import { applyFocusHighlightPatch } from "./highlightPatcher";
 
 export default class BetterFocusHighlight extends Plugin {
 	async onload() {
