@@ -15,11 +15,17 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 						)?.editor;
 					const isHighlighting = editor?.hasHighlight("is-flashing");
 					if (editor && isHighlighting) {
-						const isCursorAtEndOfHighlight = true;
+						// const isCursorAtEndOfHighlight = true;
 
-						if (!isCursorAtEndOfHighlight) {
+						if (
+							plugin.settings.cursorPositionPreference ===
+							"endOfLine"
+						) {
 							setCursorToLineEnd(editor);
-						} else {
+						} else if (
+							plugin.settings.cursorPositionPreference ===
+							"afterHighlight"
+						) {
 							// It seems that one of these will be returned, but not enough confirmation.
 							const highlightInfoFromMatches =
 								state.match?.matches;
@@ -51,10 +57,9 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 };
 
 function focusEditorOnMobile(plugin: EnhancedFocusHighlight, editor: Editor) {
-	if (!plugin.isMobile) {
-		return;
+	if (plugin.isMobile && plugin.settings.enableMobileFocus) {
+		editor.focus();
 	}
-	editor.focus();
 }
 
 function getCursorPosAtLineEnd(
