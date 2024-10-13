@@ -21,7 +21,6 @@ export default class EnhancedFocusHighlight extends Plugin {
 	private applyObsidianPatch() {
 		this.app.workspace.onLayoutReady(() => {
 			applyFocusHighlightPatch(this);
-			console.log("Patch applied");
 		});
 	}
 
