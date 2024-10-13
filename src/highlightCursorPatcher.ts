@@ -1,5 +1,5 @@
 import { around } from "monkey-around";
-import { Editor, MarkdownView } from "obsidian";
+import { Editor, EditorPosition, MarkdownView } from "obsidian";
 import EnhancedFocusHighlight from "./main";
 
 export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
@@ -16,15 +16,12 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 					const isHighlighting = editor?.hasHighlight("is-flashing");
 					if (editor && isHighlighting) {
 						const cursorPos = editor.getCursor();
-						const newCursorPos = cursorPos;
-						// get current line and set cursor to the end of the line
-						const line = editor.getLine(cursorPos.line);
-						const lineLength = line.length;
-						newCursorPos.ch = lineLength;
-						// set cursor to the end of the line
-						setTimeout(() => {
-							editor.setCursor(newCursorPos);
-						}, 10);
+						const newCursorPos = getCursorPosAtLineEnd(
+							editor,
+							cursorPos
+						);
+
+						setCursorPos(editor, newCursorPos);
 						focusEditorOnMobile(plugin, editor);
 					}
 
@@ -40,4 +37,21 @@ function focusEditorOnMobile(plugin: EnhancedFocusHighlight, editor: Editor) {
 		return;
 	}
 	editor.focus();
+}
+
+function getCursorPosAtLineEnd(
+	editor: Editor,
+	currentCursorPos: EditorPosition
+) {
+	const line = editor.getLine(currentCursorPos.line);
+	const lineLength = line.length;
+	const newCursorPos = currentCursorPos;
+	newCursorPos.ch = lineLength;
+	return newCursorPos;
+}
+
+function setCursorPos(editor: Editor, newCursorPos: EditorPosition) {
+	setTimeout(() => {
+		editor.setCursor(newCursorPos);
+	}, 10);
 }
