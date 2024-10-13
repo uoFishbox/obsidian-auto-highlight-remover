@@ -1,8 +1,9 @@
 import { around } from "monkey-around";
-import { MarkdownView } from "obsidian";
+import { MarkdownView, Platform } from "obsidian";
 import EnhancedFocusHighlight from "./main";
 
 export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
+	const isMobile = Platform.isMobileApp || Platform.isMobile;
 	// Register to be unloaded when the plugin is unloaded
 	plugin.register(
 		around(MarkdownView.prototype, {
@@ -26,6 +27,11 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 							editor.setCursor(newCursorPos);
 						}, 10);
 					}
+					// if mobile, focus the editor
+					if (isMobile && editor) {
+						editor.focus();
+					}
+
 					return response;
 				};
 			},
