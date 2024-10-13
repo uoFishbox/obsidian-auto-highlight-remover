@@ -15,13 +15,31 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 						)?.editor;
 					const isHighlighting = editor?.hasHighlight("is-flashing");
 					if (editor && isHighlighting) {
-						const cursorPos = editor.getCursor();
-						const newCursorPos = getCursorPosAtLineEnd(
-							editor,
-							cursorPos
-						);
+						const isCursorAtEndOfHighlight = true;
 
-						setCursorPos(editor, newCursorPos);
+						if (!isCursorAtEndOfHighlight) {
+							setCursorToLineEnd(editor);
+						} else {
+							// It seems that one of these will be returned, but not enough confirmation.
+							const highlightInfoFromMatches =
+								state.match?.matches;
+							const highlightInfoFromLine = state.line;
+
+							if (highlightInfoFromMatches) {
+								setCursorFromMatches(
+									editor,
+									highlightInfoFromMatches
+								);
+							}
+							// if highlightInfoFromLine is not undefined. note that 0 is a valid line number
+							if (highlightInfoFromLine !== undefined) {
+								setCursorFromLine(
+									editor,
+									highlightInfoFromLine
+								);
+							}
+						}
+
 						focusEditorOnMobile(plugin, editor);
 					}
 
@@ -43,11 +61,32 @@ function getCursorPosAtLineEnd(
 	editor: Editor,
 	currentCursorPos: EditorPosition
 ) {
-	const line = editor.getLine(currentCursorPos.line);
-	const lineLength = line.length;
+	const lineText = editor.getLine(currentCursorPos.line);
+	const lineLength = lineText.length;
 	const newCursorPos = currentCursorPos;
 	newCursorPos.ch = lineLength;
 	return newCursorPos;
+}
+
+function setCursorToLineEnd(editor: Editor) {
+	const cursorPos = editor.getCursor();
+	const newCursorPos = getCursorPosAtLineEnd(editor, cursorPos);
+	setCursorPos(editor, newCursorPos);
+}
+
+function setCursorFromLine(editor: Editor, line: number) {
+	const lineText = editor.getLine(line);
+
+	const position = {
+		line,
+		ch: lineText.length,
+	} as EditorPosition;
+	setCursorPos(editor, position);
+}
+
+function setCursorFromMatches(editor: Editor, matches: match[]) {
+	const firstMatchOffset = matches[0][1];
+	setCursorPos(editor, editor.offsetToPos(firstMatchOffset));
 }
 
 function setCursorPos(editor: Editor, newCursorPos: EditorPosition) {
@@ -55,3 +94,5 @@ function setCursorPos(editor: Editor, newCursorPos: EditorPosition) {
 		editor.setCursor(newCursorPos);
 	}, 10);
 }
+
+type match = [number, number];
