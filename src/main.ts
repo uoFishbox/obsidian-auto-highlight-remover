@@ -14,9 +14,13 @@ export default class EnhancedFocusHighlight extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
+		console.log("settings", this.settings);
 		this.isMobile = Platform.isMobileApp || Platform.isMobile;
 		this.registerEvent(
-			this.app.workspace.on("editor-change", this.removeHighlightIfNeeded)
+			this.app.workspace.on(
+				"editor-change",
+				this.removeHighlightIfNeeded.bind(this)
+			)
 		);
 		this.applyObsidianPatch();
 		this.addSettingTab(
@@ -33,7 +37,10 @@ export default class EnhancedFocusHighlight extends Plugin {
 	}
 
 	removeHighlightIfNeeded(editor: Editor) {
-		if (hasHighlighInEditor(editor)) {
+		if (
+			hasHighlighInEditor(editor) &&
+			this.settings.clearHighlightsOnEdit
+		) {
 			removeHighlightFromEditor(editor);
 		}
 	}

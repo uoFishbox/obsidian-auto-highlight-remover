@@ -3,6 +3,7 @@ import EnhancedFocusHighlight from "./main";
 import { Settings, cursorPositionPreference } from "./types";
 
 export const DEFAULT_SETTINGS: Settings = {
+	clearHighlightsOnEdit: true,
 	cursorPositionPreference: "endOfLine",
 	enableMobileFocus: true,
 };
@@ -19,6 +20,16 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
+		new Setting(containerEl)
+			.setName("Clear highlights when editing")
+			.addToggle((toggle) => {
+				toggle
+					.setValue(this.plugin.settings.clearHighlightsOnEdit)
+					.onChange((value) => {
+						this.plugin.settings.clearHighlightsOnEdit = value;
+						this.plugin.saveSettings();
+					});
+			});
 
 		new Setting(containerEl)
 			.setName("Cursor position after focus")
