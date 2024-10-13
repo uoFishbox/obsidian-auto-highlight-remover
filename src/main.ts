@@ -5,7 +5,7 @@ import {
 	removeHighlightFromEditor,
 } from "./highlightHandler";
 
-export default class BetterFocusHighlight extends Plugin {
+export default class EnhancedFocusHighlight extends Plugin {
 	async onload() {
 		this.registerEvent(
 			this.app.workspace.on("editor-change", this.removeHighlightIfNeeded)

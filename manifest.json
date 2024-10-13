@@ -1,9 +1,9 @@
 {
     "author": "uoFishbox",
-    "authorUrl": "https://github.com/uoFishbox/obsidian-auto-highlight-remover",
-    "description": "Automatically removes the highlighted state without mouse clicks.",
-    "id": "better-focus-highlight",
+    "authorUrl": "https://github.com/uoFishbox/obsidian-enhanced-focus-highlight",
+    "description": "Improve the feature that highlights and focuses on text.",
+    "id": "enhanced-focus-highlight",
     "isDesktopOnly": false,
-    "name": "Better Focus Highlight",
-    "version": "1.1.0"
+    "name": "Enhanced Focus Highlight",
+    "version": "1.1.1"
 }

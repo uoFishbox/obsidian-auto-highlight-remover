@@ -1,8 +1,8 @@
 import { around } from "monkey-around";
 import { MarkdownView } from "obsidian";
-import BetterFocusHighlight from "./main";
+import EnhancedFocusHighlight from "./main";
 
-export const applyFocusHighlightPatch = (plugin: BetterFocusHighlight) => {
+export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 	// Register to be unloaded when the plugin is unloaded
 	plugin.register(
 		around(MarkdownView.prototype, {
