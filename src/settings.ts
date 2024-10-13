@@ -48,15 +48,17 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 					});
 			});
 
-		new Setting(containerEl)
-			.setName("On mobile: focus on editor after highlighting")
-			.addToggle((toggle) => {
-				toggle
-					.setValue(this.plugin.settings.enableMobileFocus)
-					.onChange((value) => {
-						this.plugin.settings.enableMobileFocus = value;
-						this.plugin.saveSettings();
-					});
-			});
+		if (this.plugin.isMobile) {
+			new Setting(containerEl)
+				.setName("On mobile: focus on editor after highlighting")
+				.addToggle((toggle) => {
+					toggle
+						.setValue(this.plugin.settings.enableMobileFocus)
+						.onChange((value) => {
+							this.plugin.settings.enableMobileFocus = value;
+							this.plugin.saveSettings();
+						});
+				});
+		}
 	}
 }
