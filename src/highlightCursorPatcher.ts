@@ -15,8 +15,6 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 						)?.editor;
 					const isHighlighting = editor?.hasHighlight("is-flashing");
 					if (editor && isHighlighting) {
-						// const isCursorAtEndOfHighlight = true;
-
 						if (
 							plugin.settings.cursorPositionPreference ===
 							"endOfLine"

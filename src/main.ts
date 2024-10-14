@@ -14,7 +14,6 @@ export default class EnhancedFocusHighlight extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
-		console.log("settings", this.settings);
 		this.isMobile = Platform.isMobileApp || Platform.isMobile;
 		this.registerEvent(
 			this.app.workspace.on(
