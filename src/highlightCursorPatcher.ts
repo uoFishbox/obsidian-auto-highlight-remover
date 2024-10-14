@@ -44,7 +44,14 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 							}
 						}
 
-						focusEditorOnMobile(plugin, editor);
+						// Focus on mobile
+						if (
+							plugin.isMobile &&
+							plugin.settings.enableMobileFocus
+						) {
+							editor.focus();
+						}
+
 					}
 
 					return response;
@@ -53,12 +60,6 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 		})
 	);
 };
-
-function focusEditorOnMobile(plugin: EnhancedFocusHighlight, editor: Editor) {
-	if (plugin.isMobile && plugin.settings.enableMobileFocus) {
-		editor.focus();
-	}
-}
 
 function getCursorPosAtLineEnd(
 	editor: Editor,
