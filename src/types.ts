@@ -7,6 +7,6 @@ export interface Settings {
 	clearHighlightsAfterDelay: boolean;
 	clearHighlightsDelaySeconds: number;
 	clearHighlightsOnEdit: boolean;
-	cursorPositionPreference: cursorPositionPreference;
+	cursorPosition: cursorPositionPreference;
 	enableMobileFocus: boolean;
 }

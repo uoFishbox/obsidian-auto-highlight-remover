@@ -18,14 +18,10 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 						)?.editor;
 					const isHighlighting = editor?.hasHighlight("is-flashing");
 					if (editor && isHighlighting) {
-						if (
-							plugin.settings.cursorPositionPreference ===
-							"endOfLine"
-						) {
+						if (plugin.settings.cursorPosition === "endOfLine") {
 							setCursorToLineEnd(editor);
 						} else if (
-							plugin.settings.cursorPositionPreference ===
-							"afterHighlight"
+							plugin.settings.cursorPosition === "afterHighlight"
 						) {
 							// It seems that one of these will be returned, but not enough confirmation.
 							const highlightInfoFromMatches =
@@ -46,8 +42,7 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 								);
 							}
 						} else if (
-							plugin.settings.cursorPositionPreference ===
-							"default"
+							plugin.settings.cursorPosition === "default"
 						) {
 							// Do nothing
 						}

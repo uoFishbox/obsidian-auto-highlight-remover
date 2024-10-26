@@ -6,7 +6,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	clearHighlightsAfterDelay: false,
 	clearHighlightsDelaySeconds: 1.5,
 	clearHighlightsOnEdit: true,
-	cursorPositionPreference: "endOfLine",
+	cursorPosition: "endOfLine",
 	enableMobileFocus: true,
 };
 
@@ -51,9 +51,9 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 						)
 						.addOption("endOfLine", "End of line")
 						.addOption("default", "Default (no change)")
-						.setValue(this.plugin.settings.cursorPositionPreference)
+						.setValue(this.plugin.settings.cursorPosition)
 						.onChange(async (value: string) => {
-							this.plugin.settings.cursorPositionPreference =
+							this.plugin.settings.cursorPosition =
 								value as cursorPositionPreference;
 							await this.plugin.saveSettings();
 						});
