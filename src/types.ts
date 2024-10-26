@@ -10,3 +10,5 @@ export interface Settings {
 	cursorPosition: cursorPositionPreference;
 	enableMobileFocus: boolean;
 }
+
+export type match = [number, number];

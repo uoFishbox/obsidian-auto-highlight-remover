@@ -2,6 +2,7 @@ import { around } from "monkey-around";
 import { Editor, EditorPosition, MarkdownView } from "obsidian";
 import { removeHighlightFromEditor } from "./highlightHandler";
 import EnhancedFocusHighlight from "./main";
+import { match } from "./types";
 
 export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 	const removeHighlightTimeout = { current: null as NodeJS.Timeout | null };
@@ -129,5 +130,3 @@ function setCursorPos(editor: Editor, newCursorPos: EditorPosition) {
 		editor.setCursor(newCursorPos);
 	}, 10);
 }
-
-type match = [number, number];
