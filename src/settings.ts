@@ -25,9 +25,9 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 
 		if (this.plugin.isMobile) {
 			new Setting(containerEl)
-				.setName("On mobile: Focus on editor after highlighting")
+				.setName("On mobile: Insert cursor after highlighting")
 				.setDesc(
-					"By default in Obsidian mobile, after highlighting text, the editor does not receive focus. When this setting is enabled, the editor will receive focus after highlighting text on mobile as well."
+					"By default in Obsidian mobile, the cursor is not inserted into the editor after highlighting text. Enabling this setting will allow the cursor to be inserted after highlighting on mobile as well."
 				)
 				.addToggle((toggle) => {
 					toggle
