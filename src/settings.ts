@@ -3,6 +3,7 @@ import EnhancedFocusHighlight from "./main";
 import { Settings, cursorPositionPreference } from "./types";
 
 export const DEFAULT_SETTINGS: Settings = {
+	clearHighlightsAfterDelay: false,
 	clearHighlightsOnEdit: true,
 	cursorPositionPreference: "endOfLine",
 	enableMobileFocus: true,
@@ -25,9 +26,9 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 			.addToggle((toggle) => {
 				toggle
 					.setValue(this.plugin.settings.clearHighlightsOnEdit)
-					.onChange((value) => {
+					.onChange(async (value) => {
 						this.plugin.settings.clearHighlightsOnEdit = value;
-						this.plugin.saveSettings();
+						await this.plugin.saveSettings();
 					});
 			});
 
@@ -41,12 +42,21 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 				dropdown
 					.addOption("endOfLine", "End of line")
 					.setValue(this.plugin.settings.cursorPositionPreference)
-					.onChange((value: string) => {
+					.onChange(async (value: string) => {
 						this.plugin.settings.cursorPositionPreference =
 							value as cursorPositionPreference;
-						this.plugin.saveSettings();
+						await this.plugin.saveSettings();
 					});
 			});
+
+		new Setting(containerEl)
+			.setName("Clear the highlight after a certain period of time")
+			.addToggle((toggle) => {
+				toggle
+					.setValue(this.plugin.settings.clearHighlightsAfterDelay)
+					.onChange(async (value) => {
+						this.plugin.settings.clearHighlightsAfterDelay = value;
+						await this.plugin.saveSettings();
 
 		if (this.plugin.isMobile) {
 			new Setting(containerEl)
@@ -54,9 +64,9 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 				.addToggle((toggle) => {
 					toggle
 						.setValue(this.plugin.settings.enableMobileFocus)
-						.onChange((value) => {
+						.onChange(async (value) => {
 							this.plugin.settings.enableMobileFocus = value;
-							this.plugin.saveSettings();
+							await this.plugin.saveSettings();
 						});
 				});
 		}
