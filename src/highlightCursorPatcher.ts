@@ -110,6 +110,7 @@ function setCursorFromLine(editor: Editor, line: number) {
 }
 
 function setCursorFromMatches(editor: Editor, matches: match[]) {
+	// Matching Highlights.  There can be more than one highlight, but only the first highlight is retrieved.
 	const firstMatchOffset = matches[0][1];
 	setCursorPos(editor, editor.offsetToPos(firstMatchOffset));
 }
