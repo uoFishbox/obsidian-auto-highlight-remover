@@ -1,8 +1,11 @@
 import { around } from "monkey-around";
 import { Editor, EditorPosition, MarkdownView } from "obsidian";
+import { removeHighlightFromEditor } from "./highlightHandler";
 import EnhancedFocusHighlight from "./main";
 
 export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
+	const removeHighlightTimeout = { current: null as NodeJS.Timeout | null };
+
 	// Register to be unloaded when the plugin is unloaded
 	plugin.register(
 		around(MarkdownView.prototype, {
@@ -44,7 +47,7 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 							}
 						}
 
-						// Focus on mobile
+						// Focus on editor if on mobile
 						if (
 							plugin.isMobile &&
 							plugin.settings.enableMobileFocus
@@ -52,6 +55,18 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 							editor.focus();
 						}
 
+						// Remove highlight after delay, canceling any previous timeout
+
+						if (plugin.settings.clearHighlightsAfterDelay) {
+							if (removeHighlightTimeout.current) {
+								clearTimeout(removeHighlightTimeout.current);
+							}
+							removeHighlightTimeout.current =
+								scheduleHighlightsRemoval(
+									editor,
+									plugin.settings.clearHighlightsDelaySeconds
+								);
+						}
 					}
 
 					return response;
@@ -59,6 +74,13 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 			},
 		})
 	);
+
+	// Ensure timeout is cleared when the plugin is disabled
+	plugin.register(() => {
+		if (removeHighlightTimeout.current) {
+			clearTimeout(removeHighlightTimeout.current);
+		}
+	});
 };
 
 function getCursorPosAtLineEnd(
@@ -67,8 +89,7 @@ function getCursorPosAtLineEnd(
 ) {
 	const lineText = editor.getLine(currentCursorPos.line);
 	const lineLength = lineText.length;
-	const newCursorPos = currentCursorPos;
-	newCursorPos.ch = lineLength;
+	const newCursorPos = { ...currentCursorPos, ch: lineLength };
 	return newCursorPos;
 }
 
@@ -81,16 +102,25 @@ function setCursorToLineEnd(editor: Editor) {
 function setCursorFromLine(editor: Editor, line: number) {
 	const lineText = editor.getLine(line);
 
-	const position = {
+	const position: EditorPosition = {
 		line,
 		ch: lineText.length,
-	} as EditorPosition;
+	};
 	setCursorPos(editor, position);
 }
 
 function setCursorFromMatches(editor: Editor, matches: match[]) {
 	const firstMatchOffset = matches[0][1];
 	setCursorPos(editor, editor.offsetToPos(firstMatchOffset));
+}
+
+function scheduleHighlightsRemoval(
+	editor: Editor,
+	seconds: number
+): NodeJS.Timeout {
+	return setTimeout(() => {
+		removeHighlightFromEditor(editor);
+	}, seconds * 1000);
 }
 
 function setCursorPos(editor: Editor, newCursorPos: EditorPosition) {

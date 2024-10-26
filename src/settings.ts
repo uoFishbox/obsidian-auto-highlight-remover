@@ -4,6 +4,7 @@ import { Settings, cursorPositionPreference } from "./types";
 
 export const DEFAULT_SETTINGS: Settings = {
 	clearHighlightsAfterDelay: false,
+	clearHighlightsDelaySeconds: 1.5,
 	clearHighlightsOnEdit: true,
 	cursorPositionPreference: "endOfLine",
 	enableMobileFocus: true,
@@ -57,6 +58,28 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.clearHighlightsAfterDelay = value;
 						await this.plugin.saveSettings();
+						this.display();
+					});
+			});
+
+		if (this.plugin.settings.clearHighlightsAfterDelay) {
+			new Setting(containerEl)
+				.setName("Delay before clearing the highlight (seconds)")
+				.addText((text) => {
+					text.setPlaceholder("1.5")
+						.setValue(
+							this.plugin.settings.clearHighlightsDelaySeconds.toString()
+						)
+						.onChange(async (value) => {
+							const numValue = parseFloat(value);
+							if (!isNaN(numValue)) {
+								this.plugin.settings.clearHighlightsDelaySeconds =
+									numValue;
+								await this.plugin.saveSettings();
+							}
+						});
+				});
+		}
 
 		if (this.plugin.isMobile) {
 			new Setting(containerEl)
