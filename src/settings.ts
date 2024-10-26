@@ -1,8 +1,11 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import EnhancedFocusHighlight from "./main";
-import { Settings, cursorPositionPreference } from "./types";
+import {
+	EnhancedFocusHighlightSettings,
+	cursorPositionPreference,
+} from "./types";
 
-export const DEFAULT_SETTINGS: Settings = {
+export const DEFAULT_SETTINGS: EnhancedFocusHighlightSettings = {
 	clearHighlightsAfterDelay: false,
 	clearHighlightsDelaySeconds: 1.5,
 	clearHighlightsOnEdit: true,

@@ -6,11 +6,11 @@ import {
 } from "./highlightHandler";
 
 import { DEFAULT_SETTINGS, EnhancedFocusHighlightSettingTab } from "./settings";
-import { Settings } from "./types";
+import { EnhancedFocusHighlightSettings } from "./types";
 
 export default class EnhancedFocusHighlight extends Plugin {
 	isMobile = false;
-	settings!: Settings;
+	settings!: EnhancedFocusHighlightSettings;
 
 	async onload() {
 		await this.loadSettings();
@@ -35,7 +35,7 @@ export default class EnhancedFocusHighlight extends Plugin {
 		});
 	}
 
-	removeHighlightIfNeeded(editor: Editor) {
+	private removeHighlightIfNeeded(editor: Editor) {
 		if (
 			hasHighlighInEditor(editor) &&
 			this.settings.clearHighlightsOnEdit

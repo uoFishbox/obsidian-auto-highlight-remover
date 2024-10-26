@@ -3,7 +3,7 @@ export type cursorPositionPreference =
 	| "endOfLine"
 	| "default";
 
-export interface Settings {
+export interface EnhancedFocusHighlightSettings {
 	clearHighlightsAfterDelay: boolean;
 	clearHighlightsDelaySeconds: number;
 	clearHighlightsOnEdit: boolean;
