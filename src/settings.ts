@@ -22,6 +22,44 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
+
+		if (this.plugin.isMobile) {
+			new Setting(containerEl)
+				.setName("On mobile: Focus on editor after highlighting")
+				.setDesc(
+					"By default in Obsidian mobile, after highlighting text, the editor does not receive focus. When this setting is enabled, the editor will receive focus after highlighting text on mobile as well."
+				)
+				.addToggle((toggle) => {
+					toggle
+						.setValue(this.plugin.settings.enableMobileFocus)
+						.onChange(async (value) => {
+							this.plugin.settings.enableMobileFocus = value;
+							await this.plugin.saveSettings();
+							this.display();
+						});
+				});
+		}
+
+		if (!this.plugin.isMobile || this.plugin.settings.enableMobileFocus) {
+			new Setting(containerEl)
+				.setName("Cursor position after focus")
+				.addDropdown((dropdown) => {
+					dropdown
+						.addOption(
+							"afterHighlight",
+							"Immediately after the highlight"
+						)
+						.addOption("endOfLine", "End of line")
+						.addOption("default", "Default (no change)")
+						.setValue(this.plugin.settings.cursorPositionPreference)
+						.onChange(async (value: string) => {
+							this.plugin.settings.cursorPositionPreference =
+								value as cursorPositionPreference;
+							await this.plugin.saveSettings();
+						});
+				});
+		}
+
 		new Setting(containerEl)
 			.setName("Clear highlights when editing")
 			.addToggle((toggle) => {
@@ -34,24 +72,7 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Cursor position after focus")
-			.addDropdown((dropdown) => {
-				dropdown.addOption(
-					"afterHighlight",
-					"Immediately after the highlight"
-				);
-				dropdown
-					.addOption("endOfLine", "End of line")
-					.setValue(this.plugin.settings.cursorPositionPreference)
-					.onChange(async (value: string) => {
-						this.plugin.settings.cursorPositionPreference =
-							value as cursorPositionPreference;
-						await this.plugin.saveSettings();
-					});
-			});
-
-		new Setting(containerEl)
-			.setName("Clear the highlight after a certain period of time")
+			.setName("Clear highlights after a certain period of time")
 			.addToggle((toggle) => {
 				toggle
 					.setValue(this.plugin.settings.clearHighlightsAfterDelay)
@@ -64,7 +85,7 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 
 		if (this.plugin.settings.clearHighlightsAfterDelay) {
 			new Setting(containerEl)
-				.setName("Delay before clearing the highlight (seconds)")
+				.setName("Delay before clearing highlights (seconds)")
 				.addText((text) => {
 					text.setPlaceholder("1.5")
 						.setValue(
@@ -77,19 +98,6 @@ export class EnhancedFocusHighlightSettingTab extends PluginSettingTab {
 									numValue;
 								await this.plugin.saveSettings();
 							}
-						});
-				});
-		}
-
-		if (this.plugin.isMobile) {
-			new Setting(containerEl)
-				.setName("On mobile: focus on editor after highlighting")
-				.addToggle((toggle) => {
-					toggle
-						.setValue(this.plugin.settings.enableMobileFocus)
-						.onChange(async (value) => {
-							this.plugin.settings.enableMobileFocus = value;
-							await this.plugin.saveSettings();
 						});
 				});
 		}
