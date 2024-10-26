@@ -1,4 +1,7 @@
-export type cursorPositionPreference = "afterHighlight" | "endOfLine";
+export type cursorPositionPreference =
+	| "afterHighlight"
+	| "endOfLine"
+	| "default";
 
 export interface Settings {
 	clearHighlightsAfterDelay: boolean;

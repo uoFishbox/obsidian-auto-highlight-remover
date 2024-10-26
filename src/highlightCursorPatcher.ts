@@ -45,6 +45,11 @@ export const applyFocusHighlightPatch = (plugin: EnhancedFocusHighlight) => {
 									highlightInfoFromLine
 								);
 							}
+						} else if (
+							plugin.settings.cursorPositionPreference ===
+							"default"
+						) {
+							// Do nothing
 						}
 
 						// Focus on editor if on mobile
