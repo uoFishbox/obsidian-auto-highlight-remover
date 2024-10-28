@@ -46,8 +46,9 @@ By default, Obsidian mobile does not insert a cursor after focus and highlight. 
 
 ### Auto Dismiss Options
 
-- Toggle highlight removal on edit
-- Set auto-dismiss timer (in seconds)
+- Clear highlights when editing
+- Clear highlights after a certain period of time
+	- Delay before clearing highlights (in seconds)
 
 Both options can be enabled simultaneously.
 
@@ -55,7 +56,8 @@ Both options can be enabled simultaneously.
 
 Select preferred cursor position after focus:
 
-- After highlight
+- Default (no change)
+- After the highlight
 - End of line
 
 ### Mobile Specific Settings
