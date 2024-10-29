@@ -1,6 +1,6 @@
 # Obsidian Enhanced Focus Highlight
 
-An Obsidian plugin that enhances the focus and highlight functionality.
+An Obsidian plugin that enhances the ability to focus on and highlight text.
 
 ## Features
 
